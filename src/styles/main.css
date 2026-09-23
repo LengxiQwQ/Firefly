@@ -53,6 +53,12 @@ html {
     scroll-behavior: smooth;
 }
 
+/* 确保链接默认继承文字颜色，避免 iOS WebKit / Safari 回退为 -webkit-link 系统蓝 */
+a, a:link, a:visited {
+    color: inherit;
+    text-decoration: inherit;
+}
+
 /* 全站键盘焦点基线；组件可以在更高的层中覆盖间距或形态。 */
 @layer components {
     :where(
@@ -406,13 +412,16 @@ html {
         @apply pointer-events-none text-black/10 dark:text-white/10
     }
     .btn-plain {
-        @apply transition-colors duration-150 relative flex items-center justify-center bg-none
-        text-black/75 hover:text-(--primary) dark:text-white/75 dark:hover:text-(--primary);
+        @apply transition-colors duration-150 relative flex items-center justify-center bg-none;
+        color: rgba(0, 0, 0, 0.75);
+        &:hover {
+            color: var(--primary);
+        }
         &:focus-visible {
             color: var(--primary);
         }
         &:not(.scale-animation) {
-            @apply hover:bg-(--btn-plain-bg-hover) active:bg-(--btn-plain-bg-active)
+            @apply hover:bg-(--btn-plain-bg-hover) active:bg-(--btn-plain-bg-active);
         }
         &:not(.scale-animation):focus-visible {
             background-color: var(--btn-plain-bg-hover);
@@ -421,12 +430,26 @@ html {
             @apply expand-animation;
         }
     }
+    :is(.dark, .dark *) .btn-plain,
+    .dark .btn-plain {
+        color: rgba(255, 255, 255, 0.75);
+    }
+    :is(.dark, .dark *) .btn-plain:hover,
+    .dark .btn-plain:hover,
+    :is(.dark, .dark *) .btn-plain:focus-visible,
+    .dark .btn-plain:focus-visible {
+        color: var(--primary);
+    }
     .current-theme-btn {
         @apply bg-(--btn-plain-bg-hover) text-(--primary);
     }
     .btn-regular {
-        @apply transition-colors duration-150 flex items-center justify-center bg-(--btn-regular-bg) hover:bg-(--btn-regular-bg-hover) active:bg-(--btn-regular-bg-active)
-        text-(--btn-content) dark:text-white/75
+        @apply transition-colors duration-150 flex items-center justify-center bg-(--btn-regular-bg) hover:bg-(--btn-regular-bg-hover) active:bg-(--btn-regular-bg-active);
+        color: var(--btn-content);
+    }
+    :is(.dark, .dark *) .btn-regular,
+    .dark .btn-regular {
+        color: rgba(255, 255, 255, 0.75);
     }
 
     .link-underline {
@@ -447,19 +470,39 @@ html {
 
 
     .text-90 {
-        @apply text-black/90 dark:text-white/90
+        color: rgba(0, 0, 0, 0.9);
+    }
+    :is(.dark, .dark *) .text-90,
+    .dark .text-90 {
+        color: rgba(255, 255, 255, 0.9);
     }
     .text-75 {
-        @apply text-black/75 dark:text-white/75
+        color: rgba(0, 0, 0, 0.75);
+    }
+    :is(.dark, .dark *) .text-75,
+    .dark .text-75 {
+        color: rgba(255, 255, 255, 0.75);
     }
     .text-50 {
-        @apply text-black/50 dark:text-white/50
+        color: rgba(0, 0, 0, 0.5);
+    }
+    :is(.dark, .dark *) .text-50,
+    .dark .text-50 {
+        color: rgba(255, 255, 255, 0.5);
     }
     .text-30 {
-        @apply text-black/30 dark:text-white/30
+        color: rgba(0, 0, 0, 0.3);
+    }
+    :is(.dark, .dark *) .text-30,
+    .dark .text-30 {
+        color: rgba(255, 255, 255, 0.3);
     }
     .text-25 {
-        @apply text-black/25 dark:text-white/25
+        color: rgba(0, 0, 0, 0.25);
+    }
+    :is(.dark, .dark *) .text-25,
+    .dark .text-25 {
+        color: rgba(255, 255, 255, 0.25);
     }
 
     /* 下拉菜单样式 */
@@ -492,7 +535,16 @@ html {
     }
 
     .dropdown-item {
-        @apply flex items-center justify-between px-4 py-2.5 text-black/75 dark:text-white/75 hover:text-(--primary) hover:bg-(--btn-plain-bg-hover) transition-colors duration-150 font-medium;
+        @apply flex items-center justify-between px-4 py-2.5 hover:text-(--primary) hover:bg-(--btn-plain-bg-hover) transition-colors duration-150 font-medium;
+        color: rgba(0, 0, 0, 0.75);
+    }
+    :is(.dark, .dark *) .dropdown-item,
+    .dark .dropdown-item {
+        color: rgba(255, 255, 255, 0.75);
+    }
+    :is(.dark, .dark *) .dropdown-item:hover,
+    .dark .dropdown-item:hover {
+        color: var(--primary);
     }
 
     .dropdown-item:first-child {
