@@ -53,27 +53,40 @@ html {
     scroll-behavior: smooth;
 }
 
-/* 确保链接默认继承文字颜色，彻底根除 iOS WebKit / Safari 回退为 -webkit-link 系统默认蓝的问题 */
-:where(a, a:link, a:visited) {
+/* 必须具备 (0, 1, 1) 特异性，才能在 Safari 内部样式表中坚决压制 :any-link (0, 1, 0) 的系统蓝 */
+a, a:link, a:visited {
     color: inherit;
     text-decoration: inherit;
 }
 
-/* 保护 .btn-regular 链接组件原有配色（浅色主题色，深色半透明白），防止被上方 inherit 覆盖 */
-a.btn-regular {
+/* 浅色模式下，保护本应使用主题色的组件链接不被 a:link 覆盖为黑色 */
+:root:not(.dark) a.btn-regular,
+:root:not(.dark) a.category-pill,
+:root:not(.dark) a.tag-item {
     color: var(--btn-content);
 }
+:root:not(.dark) a.category-pill[data-category-name=""] {
+    color: var(--primary);
+}
+:root:not(.dark) a.category-pill[data-active] {
+    color: #ffffff;
+}
+
+/* 深色模式下，.btn-regular 保持半透明白，分类激活态保持纯白 */
 :is(.dark, .dark *) a.btn-regular {
     color: rgba(255, 255, 255, 0.75);
 }
+:is(.dark, .dark *) a.category-pill[data-active] {
+    color: #ffffff;
+}
 
-/* 确保悬浮时正常响应主题色过渡（如文章卡片标题、分类元数据、按钮等） */
+/* 确保悬浮时正常响应主题色高亮过渡 */
 a[class*="hover:text-(--primary)"]:hover,
 .group:hover a[class*="group-hover:text-(--primary)"],
-.btn-plain:hover,
 a.btn-plain:hover,
-.dropdown-item:hover,
-a.dropdown-item:hover {
+a.dropdown-item:hover,
+a.category-pill:not([data-active]):hover,
+a.tag-item:not(.tag-item-static):hover {
     color: var(--primary);
 }
 
