@@ -12,14 +12,6 @@
 
 @plugin '@tailwindcss/typography';
 
-@layer base {
-  /* 确保链接默认继承文字颜色，避免 iOS Safari 强行变蓝。放入 base 层以避免覆盖 Tailwind utility 类与组件主题色 */
-  a, a:link, a:visited {
-    color: inherit;
-    text-decoration: inherit;
-  }
-}
-
 /* 暗色模式选择器配置 */
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -59,6 +51,65 @@
 /* 确保平滑滚动 */
 html {
     scroll-behavior: smooth;
+}
+
+/* 确保链接默认继承文字颜色，彻底根除 iOS WebKit / Safari 回退为 -webkit-link 系统默认蓝的问题 */
+a, a:link, a:visited {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+/* 保护带有主题色和特定状态的链接组件，防止被上方规则覆盖为纯黑 */
+.btn-regular,
+a.btn-regular,
+a.btn-regular:link,
+a.btn-regular:visited {
+    color: var(--btn-content) !important;
+}
+:is(.dark, .dark *) .btn-regular,
+:is(.dark, .dark *) a.btn-regular,
+:is(.dark, .dark *) a.btn-regular:link,
+:is(.dark, .dark *) a.btn-regular:visited {
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.category-pill,
+a.category-pill,
+a.category-pill:link,
+a.category-pill:visited {
+    color: var(--btn-content) !important;
+}
+.category-pill[data-category-name=""],
+a.category-pill[data-category-name=""],
+a.category-pill[data-category-name=""]:link,
+a.category-pill[data-category-name=""]:visited {
+    color: var(--primary) !important;
+}
+.category-pill[data-active],
+a.category-pill[data-active],
+a.category-pill[data-active]:link,
+a.category-pill[data-active]:visited {
+    color: #ffffff !important;
+}
+
+/* 更多动态 等携带 text-(--primary) 的链接 */
+a[class*="text-(--primary)"],
+a[class*="text-(--primary)"]:link,
+a[class*="text-(--primary)"]:visited {
+    color: var(--primary) !important;
+}
+
+/* 当前激活主题等按钮 */
+.current-theme-btn,
+a.current-theme-btn,
+a.current-theme-btn:link,
+a.current-theme-btn:visited {
+    color: var(--primary) !important;
+}
+
+/* 带有 hover:text-(--primary) 的链接在悬浮时正常显示主题色 */
+a[class*="hover:text-(--primary)"]:hover {
+    color: var(--primary) !important;
 }
 
 /* 全站键盘焦点基线；组件可以在更高的层中覆盖间距或形态。 */
