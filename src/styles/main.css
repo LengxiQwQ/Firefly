@@ -12,6 +12,14 @@
 
 @plugin '@tailwindcss/typography';
 
+@layer base {
+  /* 确保链接默认继承文字颜色，避免 iOS Safari 强行变蓝。放入 base 层以避免覆盖 Tailwind utility 类与组件主题色 */
+  a, a:link, a:visited {
+    color: inherit;
+    text-decoration: inherit;
+  }
+}
+
 /* 暗色模式选择器配置 */
 @custom-variant dark (&:where(.dark, .dark *));
 
