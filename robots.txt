@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /_astro/
+Disallow: /archive/?tag=
+Disallow: /archive/?category=
+Disallow: /archive/?uncategorized=
+
+Sitemap: https://lengxiqwq.github.io/Firefly/sitemap-index.xml
