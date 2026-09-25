@@ -54,141 +54,27 @@ html {
 }
 
 /* 确保链接默认继承文字颜色，彻底根除 iOS WebKit / Safari 回退为 -webkit-link 系统默认蓝的问题 */
-a, a:link, a:visited {
+:where(a, a:link, a:visited) {
     color: inherit;
     text-decoration: inherit;
 }
 
-/* 浅色模式组件配色：按钮、胶囊、标签及专属链接显示鲜明主题色 */
-:root:not(.dark) .btn-regular,
-:root:not(.dark) a.btn-regular,
-:root:not(.dark) a.btn-regular:link,
-:root:not(.dark) a.btn-regular:visited {
-    color: var(--btn-content) !important;
+/* 保护 .btn-regular 链接组件原有配色（浅色主题色，深色半透明白），防止被上方 inherit 覆盖 */
+a.btn-regular {
+    color: var(--btn-content);
+}
+:is(.dark, .dark *) a.btn-regular {
+    color: rgba(255, 255, 255, 0.75);
 }
 
-:root:not(.dark) .category-pill,
-:root:not(.dark) a.category-pill,
-:root:not(.dark) a.category-pill:link,
-:root:not(.dark) a.category-pill:visited {
-    color: var(--btn-content) !important;
-}
-
-:root:not(.dark) .category-pill[data-category-name=""],
-:root:not(.dark) a.category-pill[data-category-name=""],
-:root:not(.dark) a.category-pill[data-category-name=""]:link,
-:root:not(.dark) a.category-pill[data-category-name=""]:visited {
-    color: var(--primary) !important;
-}
-
-:root:not(.dark) .tag-item,
-:root:not(.dark) a.tag-item,
-:root:not(.dark) a.tag-item:link,
-:root:not(.dark) a.tag-item:visited {
-    color: var(--btn-content) !important;
-}
-
-:root:not(.dark) a[class*="text-(--primary)"],
-:root:not(.dark) a[class*="text-(--primary)"]:link,
-:root:not(.dark) a[class*="text-(--primary)"]:visited {
-    color: var(--primary) !important;
-}
-
-/* 深色模式组件配色：深色模式下所有链接、按钮、分类胶囊均呈现优雅白色系，杜绝呈现主题绿或 iOS 默认系统蓝 */
-:is(.dark, .dark *) .btn-regular,
-:is(.dark, .dark *) a.btn-regular,
-:is(.dark, .dark *) a.btn-regular:link,
-:is(.dark, .dark *) a.btn-regular:visited {
-    color: rgba(255, 255, 255, 0.75) !important;
-}
-
-:is(.dark, .dark *) .category-pill,
-:is(.dark, .dark *) a.category-pill,
-:is(.dark, .dark *) a.category-pill:link,
-:is(.dark, .dark *) a.category-pill:visited {
-    color: rgba(255, 255, 255, 0.75) !important;
-}
-
-:is(.dark, .dark *) .category-pill[data-category-name=""],
-:is(.dark, .dark *) a.category-pill[data-category-name=""],
-:is(.dark, .dark *) a.category-pill[data-category-name=""]:link,
-:is(.dark, .dark *) a.category-pill[data-category-name=""]:visited {
-    color: rgba(255, 255, 255, 0.85) !important;
-}
-
-:is(.dark, .dark *) .tag-item,
-:is(.dark, .dark *) a.tag-item,
-:is(.dark, .dark *) a.tag-item:link,
-:is(.dark, .dark *) a.tag-item:visited {
-    color: rgba(255, 255, 255, 0.75) !important;
-}
-
-:is(.dark, .dark *) a[class*="text-(--primary)"],
-:is(.dark, .dark *) a[class*="text-(--primary)"]:link,
-:is(.dark, .dark *) a[class*="text-(--primary)"]:visited {
-    color: rgba(255, 255, 255, 0.85) !important;
-}
-
-/* 激活状态分类胶囊始终保持纯白 */
-.category-pill[data-active],
-a.category-pill[data-active],
-a.category-pill[data-active]:link,
-a.category-pill[data-active]:visited {
-    color: #ffffff !important;
-}
-
-/* 当前激活主题等按钮 */
-.current-theme-btn,
-a.current-theme-btn,
-a.current-theme-btn:link,
-a.current-theme-btn:visited {
-    color: var(--primary) !important;
-}
-
-/* 确保文章标题等带有 text-90 / text-75 / text-50 的链接在 Safari 下拥有明确的灰度阶梯 */
-a.text-90, a.text-90:link, a.text-90:visited {
-    color: rgba(0, 0, 0, 0.9) !important;
-}
-:is(.dark, .dark *) a.text-90,
-:is(.dark, .dark *) a.text-90:link,
-:is(.dark, .dark *) a.text-90:visited {
-    color: rgba(255, 255, 255, 0.9) !important;
-}
-
-a.text-75, a.text-75:link, a.text-75:visited {
-    color: rgba(0, 0, 0, 0.75) !important;
-}
-:is(.dark, .dark *) a.text-75,
-:is(.dark, .dark *) a.text-75:link,
-:is(.dark, .dark *) a.text-75:visited {
-    color: rgba(255, 255, 255, 0.75) !important;
-}
-
-a.text-50, a.text-50:link, a.text-50:visited {
-    color: rgba(0, 0, 0, 0.5) !important;
-}
-:is(.dark, .dark *) a.text-50,
-:is(.dark, .dark *) a.text-50:link,
-:is(.dark, .dark *) a.text-50:visited {
-    color: rgba(255, 255, 255, 0.5) !important;
-}
-
-/* 悬浮交互：悬浮时高亮为主题色（激活态胶囊保持纯白） */
+/* 确保悬浮时正常响应主题色过渡（如文章卡片标题、分类元数据、按钮等） */
 a[class*="hover:text-(--primary)"]:hover,
 .group:hover a[class*="group-hover:text-(--primary)"],
-a.text-90:hover,
-a.text-75:hover,
-a.text-50:hover,
-.category-pill:not([data-active]):hover,
-a.category-pill:not([data-active]):hover,
-.tag-item:not(.tag-item-static):hover,
-a.tag-item:not(.tag-item-static):hover {
-    color: var(--primary) !important;
-}
-
-.category-pill[data-active]:hover,
-a.category-pill[data-active]:hover {
-    color: #ffffff !important;
+.btn-plain:hover,
+a.btn-plain:hover,
+.dropdown-item:hover,
+a.dropdown-item:hover {
+    color: var(--primary);
 }
 
 /* 全站键盘焦点基线；组件可以在更高的层中覆盖间距或形态。 */
@@ -544,16 +430,13 @@ a.category-pill[data-active]:hover {
         @apply pointer-events-none text-black/10 dark:text-white/10
     }
     .btn-plain {
-        @apply transition-colors duration-150 relative flex items-center justify-center bg-none;
-        color: rgba(0, 0, 0, 0.75);
-        &:hover {
-            color: var(--primary);
-        }
+        @apply transition-colors duration-150 relative flex items-center justify-center bg-none
+        text-black/75 hover:text-(--primary) dark:text-white/75 dark:hover:text-(--primary);
         &:focus-visible {
             color: var(--primary);
         }
         &:not(.scale-animation) {
-            @apply hover:bg-(--btn-plain-bg-hover) active:bg-(--btn-plain-bg-active);
+            @apply hover:bg-(--btn-plain-bg-hover) active:bg-(--btn-plain-bg-active)
         }
         &:not(.scale-animation):focus-visible {
             background-color: var(--btn-plain-bg-hover);
@@ -562,26 +445,12 @@ a.category-pill[data-active]:hover {
             @apply expand-animation;
         }
     }
-    :is(.dark, .dark *) .btn-plain,
-    .dark .btn-plain {
-        color: rgba(255, 255, 255, 0.75);
-    }
-    :is(.dark, .dark *) .btn-plain:hover,
-    .dark .btn-plain:hover,
-    :is(.dark, .dark *) .btn-plain:focus-visible,
-    .dark .btn-plain:focus-visible {
-        color: var(--primary);
-    }
     .current-theme-btn {
         @apply bg-(--btn-plain-bg-hover) text-(--primary);
     }
     .btn-regular {
-        @apply transition-colors duration-150 flex items-center justify-center bg-(--btn-regular-bg) hover:bg-(--btn-regular-bg-hover) active:bg-(--btn-regular-bg-active);
-        color: var(--btn-content);
-    }
-    :is(.dark, .dark *) .btn-regular,
-    .dark .btn-regular {
-        color: rgba(255, 255, 255, 0.75);
+        @apply transition-colors duration-150 flex items-center justify-center bg-(--btn-regular-bg) hover:bg-(--btn-regular-bg-hover) active:bg-(--btn-regular-bg-active)
+        text-(--btn-content) dark:text-white/75
     }
 
     .link-underline {
@@ -602,39 +471,19 @@ a.category-pill[data-active]:hover {
 
 
     .text-90 {
-        color: rgba(0, 0, 0, 0.9);
-    }
-    :is(.dark, .dark *) .text-90,
-    .dark .text-90 {
-        color: rgba(255, 255, 255, 0.9);
+        @apply text-black/90 dark:text-white/90
     }
     .text-75 {
-        color: rgba(0, 0, 0, 0.75);
-    }
-    :is(.dark, .dark *) .text-75,
-    .dark .text-75 {
-        color: rgba(255, 255, 255, 0.75);
+        @apply text-black/75 dark:text-white/75
     }
     .text-50 {
-        color: rgba(0, 0, 0, 0.5);
-    }
-    :is(.dark, .dark *) .text-50,
-    .dark .text-50 {
-        color: rgba(255, 255, 255, 0.5);
+        @apply text-black/50 dark:text-white/50
     }
     .text-30 {
-        color: rgba(0, 0, 0, 0.3);
-    }
-    :is(.dark, .dark *) .text-30,
-    .dark .text-30 {
-        color: rgba(255, 255, 255, 0.3);
+        @apply text-black/30 dark:text-white/30
     }
     .text-25 {
-        color: rgba(0, 0, 0, 0.25);
-    }
-    :is(.dark, .dark *) .text-25,
-    .dark .text-25 {
-        color: rgba(255, 255, 255, 0.25);
+        @apply text-black/25 dark:text-white/25
     }
 
     /* 下拉菜单样式 */
@@ -667,16 +516,7 @@ a.category-pill[data-active]:hover {
     }
 
     .dropdown-item {
-        @apply flex items-center justify-between px-4 py-2.5 hover:text-(--primary) hover:bg-(--btn-plain-bg-hover) transition-colors duration-150 font-medium;
-        color: rgba(0, 0, 0, 0.75);
-    }
-    :is(.dark, .dark *) .dropdown-item,
-    .dark .dropdown-item {
-        color: rgba(255, 255, 255, 0.75);
-    }
-    :is(.dark, .dark *) .dropdown-item:hover,
-    .dark .dropdown-item:hover {
-        color: var(--primary);
+        @apply flex items-center justify-between px-4 py-2.5 text-black/75 dark:text-white/75 hover:text-(--primary) hover:bg-(--btn-plain-bg-hover) transition-colors duration-150 font-medium;
     }
 
     .dropdown-item:first-child {
